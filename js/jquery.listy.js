@@ -20,7 +20,8 @@
   var Listy = function (element, options) {
     this.options = options;
     this.$container = $(element);
-    this.$elems = this.$container.find('li');
+    this.$allElems = this.$container.find(this.options.element);
+    this.$elems = this.$allElems.not(this.options.disabled);
     this.scrollTo = 0;
     this.mouseActive = false;
   };
@@ -39,7 +40,7 @@
             _self.$elems.removeClass('listy-hover');
             $(this).addClass('listy-hover');
             _self.mouseActive = true;
-          })
+          });
         }
       });
 
@@ -101,7 +102,7 @@
         case 'UP':
           if (curIndex === 0){
             nextIndex = _self.$elems.length - 1;
-            _self.scrollTo = (_self.$elems.length - (visibleElems)) * elemHeight;
+            _self.scrollTo = (_self.$allElems.length - (visibleElems)) * elemHeight;
           } else {
             nextIndex = curIndex - 1;
             _self.scrollTo -= elemHeight;
@@ -113,7 +114,7 @@
     },
 
     matchKeys: function(code, keys){
-      return $.inArray(code, keys) !== -1
+      return $.inArray(code, keys) !== -1;
     }
   };
 
@@ -147,6 +148,8 @@
     upKeys: [38],
     downKeys: [40],
     selectKeys: [13, 32],
+    inactive: '.inactive',
+    element: 'li',
     select: function(elem){
       elem.toggleClass('active');
     }
