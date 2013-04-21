@@ -21,7 +21,7 @@
     this.options = options;
     this.$container = $(element);
     this.$allElems = this.$container.find(this.options.element);
-    this.$elems = this.$allElems.not(this.options.disabled);
+    this.$elems = this.$allElems.not(this.options.inactive);
     this.scrollTo = 0;
     this.mouseActive = false;
   };
@@ -30,7 +30,7 @@
     constructor: Listy,
 
     init: function(){
-      var _self       = this;
+      var _self = this;
 
       this.$elems.first().addClass('listy-hover');
 
