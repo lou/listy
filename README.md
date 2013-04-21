@@ -1,7 +1,7 @@
 listy
 =====
 
-I'm here to help developer to make navigable lists. By navigable I mean a list which can be browsed with keyboard or mouse.
+I'm a tiny jQuery plugin which aim to facilitate developer making lists browsable through keyboard.
 
 I just do the list stuff and let the developer do whatever he want to do when user select anything in the list.
 
