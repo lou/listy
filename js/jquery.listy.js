@@ -19,7 +19,9 @@
 
   var Listy = function (element, options) {
     this.options = options;
-    this.$element = $(element);
+    this.$container = $(element);
+    this.$allElems = this.$container.find(this.options.element);
+    this.$elems = this.$allElems.not(this.options.disabled);
     this.scrollTo = 0;
     this.mouseActive = false;
   };
@@ -28,76 +30,91 @@
     constructor: Listy,
 
     init: function(){
-      var _self       = this,
-          $container  = this.$element,
-          $elems      = this.$element.find('li');
+      var _self       = this;
 
-      $elems.first().addClass('listy-hover');
+      this.$elems.first().addClass('listy-hover');
 
-      $container.on('mousemove', function(){
+      this.$container.on('mousemove', function(){
         if (_self.mouseActive === false){
-          $elems.on('mouseenter', function(){
-            $elems.removeClass('listy-hover');
+          _self.$elems.on('mouseenter', function(){
+            _self.$elems.removeClass('listy-hover');
             $(this).addClass('listy-hover');
             _self.mouseActive = true;
-          })
+          });
         }
       });
 
-      $elems.on('click', function(){
-        console.log('test click !!!');
+      _self.$elems.on('click', function(){
         if (typeof _self.options.select === 'function') {
           _self.options.select.call(this, $(this));
         }
       });
-      $container.on('focus', function(){
-        $container.addClass('listy-focus');
+      _self.$container.on('focus', function(){
+        _self.$container.addClass('listy-focus');
       })
       .on('blur', function(){
-        $container.removeClass('listy-focus');
+        _self.$container.removeClass('listy-focus');
       })
       .on('keydown', function(e){
-        var $currentHoverLi = $elems.filter('.listy-hover'),
-            curIndex = $elems.index($currentHoverLi),
-            elemHeight = $elems.first().outerHeight(),
-            containerHeight = $container.height(),
-            visibleElems = Math.floor(containerHeight / elemHeight);
+        var $currentHoverLi = _self.$elems.filter('.listy-hover'),
+            code = e.which;
 
-
-        $elems.off('mouseenter');
+        _self.$elems.off('mouseenter');
         _self.mouseActive = false;
 
-        if (e.which === 40 || e.which === 38){ // Up OR Down
-          $elems.removeClass('listy-hover');
-          var nextIndex = null;
-
-          if (e.which === 40){ // DOWN
-            if (curIndex === ($elems.length - 1)){
-              nextIndex = 0;
-              _self.scrollTo = 0;
-            } else {
-              nextIndex = curIndex + 1;
-              _self.scrollTo += elemHeight;
-            }
-          } else if (e.which === 38){ // UP
-            if (curIndex === 0){
-              nextIndex = $elems.length - 1;
-              _self.scrollTo = ($elems.length - (visibleElems)) * elemHeight;
-            } else {
-              nextIndex = curIndex - 1;
-              _self.scrollTo -= elemHeight;
-            }
-          }
-          $($elems.get(nextIndex)).addClass('listy-hover');
-          $container.scrollTop(_self.scrollTo);
+        if (_self.matchKeys(code, _self.options.downKeys)){
+          _self.move('DOWN', $currentHoverLi);
           return false;
-        } else if (e.which === 13 || e.which === 32) {
+        }
+        else if (_self.matchKeys(code, _self.options.upKeys)){ // UP
+          _self.move('UP', $currentHoverLi);
+          return false;
+        }
+        else if (_self.matchKeys(code, _self.options.selectKeys)) { // SELECT
           if (typeof _self.options.select === 'function') {
             _self.options.select.call(this, $currentHoverLi);
           }
           return false;
         }
       });
+    },
+
+    move: function(direction, activeElem){
+      var _self = this,
+          curIndex = _self.$elems.index(activeElem),
+          elemHeight = _self.$elems.first().outerHeight(),
+          containerHeight = _self.$container.height(),
+          visibleElems = Math.floor(containerHeight / elemHeight);
+
+      _self.$elems.removeClass('listy-hover');
+      var nextIndex = null;
+
+      switch(direction){
+        case 'DOWN':
+          if (curIndex === (_self.$elems.length - 1)){
+            nextIndex = 0;
+            _self.scrollTo = 0;
+          } else {
+            nextIndex = curIndex + 1;
+            _self.scrollTo += elemHeight;
+          }
+          break;
+        case 'UP':
+          if (curIndex === 0){
+            nextIndex = _self.$elems.length - 1;
+            _self.scrollTo = (_self.$allElems.length - (visibleElems)) * elemHeight;
+          } else {
+            nextIndex = curIndex - 1;
+            _self.scrollTo -= elemHeight;
+          }
+          break;
+      }
+      $(_self.$elems.get(nextIndex)).addClass('listy-hover');
+      _self.$container.scrollTop(_self.scrollTo); 
+    },
+
+    matchKeys: function(code, keys){
+      return $.inArray(code, keys) !== -1;
     }
   };
 
@@ -128,8 +145,13 @@
   };
 
   $.fn.listy.defaults = {
+    upKeys: [38],
+    downKeys: [40],
+    selectKeys: [13, 32],
+    inactive: '.inactive',
+    element: 'li',
     select: function(elem){
-      elem.toggleClass('listy-selected');
+      elem.toggleClass('active');
     }
   };
 
