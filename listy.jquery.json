@@ -1,15 +1,16 @@
 {
   "name": "listy",
   "title": "listy",
-  "description": "Navigable list with keyboard",
+  "description": "Easiest way to do browsable lists with keyboard",
   "keywords": [
     "list",
     "ul",
     "selectable",
     "navigable",
-    "keyboard"
+    "keyboard",
+    "browsable"
   ],
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": {
     "name": "lou",
     "email" : "louiscuny@gmail.com",
