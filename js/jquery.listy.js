@@ -24,7 +24,7 @@
     this.$elems = this.$allElems.not(this.options.inactive);
     this.scrollTo = 0;
     this.mouseActive = false;
-    this.elemsSelector = this.options.element+':not('+this.options.inactive+')'
+    this.elemsSelector = this.options.element+':not('+this.options.inactive+')';
   };
 
   Listy.prototype = {
@@ -73,7 +73,9 @@
         }
         else if (_self.matchKeys(code, _self.options.selectKeys)) {
           if (typeof _self.options.select === 'function') {
-            _self.options.select.call(this, $currentHoverLi);
+            if ($currentHoverLi.length > 0 && $currentHoverLi.is(':visible')){
+              _self.options.select.call(this, $currentHoverLi);
+            }
           }
           return false;
         }
