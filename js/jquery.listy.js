@@ -24,6 +24,7 @@
     this.$elems = this.$allElems.not(this.options.inactive);
     this.scrollTo = 0;
     this.mouseActive = false;
+    this.elemsSelector = this.options.element+':not('+this.options.inactive+')'
   };
 
   Listy.prototype = {
@@ -66,11 +67,11 @@
           _self.move('DOWN', $currentHoverLi);
           return false;
         }
-        else if (_self.matchKeys(code, _self.options.upKeys)){ // UP
+        else if (_self.matchKeys(code, _self.options.upKeys)){
           _self.move('UP', $currentHoverLi);
           return false;
         }
-        else if (_self.matchKeys(code, _self.options.selectKeys)) { // SELECT
+        else if (_self.matchKeys(code, _self.options.selectKeys)) {
           if (typeof _self.options.select === 'function') {
             _self.options.select.call(this, $currentHoverLi);
           }
@@ -81,36 +82,33 @@
 
     move: function(direction, activeElem){
       var _self = this,
-          curIndex = _self.$elems.index(activeElem),
+          $nextElem = null,
           elemHeight = _self.$elems.first().outerHeight(),
-          containerHeight = _self.$container.height(),
-          visibleElems = Math.floor(containerHeight / elemHeight);
+          containerHeight = _self.$container.height();
 
       _self.$elems.removeClass('listy-hover');
-      var nextIndex = null;
 
       switch(direction){
         case 'DOWN':
-          if (curIndex === (_self.$elems.length - 1)){
-            nextIndex = 0;
-            _self.scrollTo = 0;
+          if (activeElem.nextAll(_self.elemsSelector).first().length > 0){
+            $nextElem = activeElem.nextAll(_self.elemsSelector).first();
           } else {
-            nextIndex = curIndex + 1;
-            _self.scrollTo += elemHeight;
+            $nextElem = _self.$elems.first();
           }
           break;
         case 'UP':
-          if (curIndex === 0){
-            nextIndex = _self.$elems.length - 1;
-            _self.scrollTo = (_self.$allElems.length - (visibleElems)) * elemHeight;
+          if (activeElem.prevAll(_self.elemsSelector).first().length > 0){
+            $nextElem = activeElem.prevAll(_self.elemsSelector).first();
           } else {
-            nextIndex = curIndex - 1;
-            _self.scrollTo -= elemHeight;
+            $nextElem = _self.$elems.last();
           }
           break;
       }
-      $(_self.$elems.get(nextIndex)).addClass('listy-hover');
-      _self.$container.scrollTop(_self.scrollTo); 
+      var scrollTo =  _self.$container.scrollTop() + $nextElem.position().top - 
+                      containerHeight / 2 + elemHeight / 2;
+
+      _self.$container.scrollTop(scrollTo);
+      $nextElem.addClass('listy-hover'); 
     },
 
     matchKeys: function(code, keys){
@@ -149,9 +147,10 @@
     downKeys: [40],
     selectKeys: [13, 32],
     inactive: '.inactive',
-    element: 'li',
+    element: 'li:visible',
+    selectFirst: true,
     select: function(elem){
-      elem.toggleClass('active');
+      elem.hide();
     }
   };
 
