@@ -5,16 +5,33 @@
     <link href="css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="css/bootstrap-responsive.min.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="css/listy.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="css/theme.css" media="screen" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+      span.close{
+        float: none;
+        color: #8DA6CE;
+        font-weight: normal;
+        font-size: 12px;
+        text-shadow: none;
+        opacity: 1;
+      }
+
+      #console{
+        height: 110px;
+        overflow-y: auto;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <div class='row'>
         <div class='span12'>
           <h1>Listy</h1>
+          <br />
         </div>
       </div>
       <div class='row'>
-        <div class='span12'>
+        <div class='span6'>
           <ul tabindex='0' class='listy'>
             <li class='inactive'>elem 1</li>
             <li>elem 2</li>
@@ -36,12 +53,49 @@
             <li>elem 18</li>
             <li>elem 19</li>
           </ul>
+          <br />
+          <br />
+          <div id='console' class='well'>
+          </div>
+        </div>
+        <div class='span6'>
+          <pre><code data-language="html">&lt;ul tabindex='0' class='listy'&gt;
+  &lt;li class='inactive'&gt;elem 1&lt;/li&gt;
+  &lt;li&gt;elem 2&lt;/li&gt;
+  &lt;li&gt;elem 3&lt;/li&gt;
+  &lt;li&gt;elem 4&lt;/li&gt;
+  &lt;li&gt;elem 5&lt;/li&gt;
+  &lt;li&gt;elem 6&lt;/li&gt;
+  &lt;li&gt;elem 7&lt;/li&gt;
+  &lt;li class='inactive'&gt;elem 8&lt;/li&gt;
+  &lt;li&gt;elem 9&lt;/li&gt;
+  &lt;li&gt;elem 10&lt;/li&gt;
+  &lt;li&gt;elem 11&lt;/li&gt;
+  &lt;li&gt;elem 12&lt;/li&gt;
+  &lt;li&gt;elem 13&lt;/li&gt;
+  &lt;li&gt;elem 14&lt;/li&gt;
+  &lt;li&gt;elem 15&lt;/li&gt;
+  &lt;li&gt;elem 16&lt;/li&gt;
+  &lt;li&gt;elem 17&lt;/li&gt;
+  &lt;li&gt;elem 18&lt;/li&gt;
+  &lt;li&gt;elem 19&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+          <br />
+          <pre><code data-language="javascript">$(&quot;.listy&quot;).listy({
+  select: function(elem){
+    elem.hide();
+    $(&quot;#console&quot;).prepend(elem.text()+&quot; selected !&lt;br /&gt;&quot;);
+  }
+});</code></pre>
         </div>
       </div>
     </div>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.listy.js" type="text/javascript"></script>
     <script src="js/application.js" type="text/javascript"></script>
+    <script src="js/rainbow.js" type="text/javascript"></script>
+    <script src="js/rainbow.javascript.js" type="text/javascript"></script>
+    <script src="js/rainbow.html.js" type="text/javascript"></script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
