@@ -1,5 +1,5 @@
 /*
-* Listy v0.0.1
+* Listy v0.1.1
 * Copyright (c) 2012 Louis Cuny
 *
 * This program is free software. It comes without any warranty, to
