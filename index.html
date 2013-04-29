@@ -7,6 +7,7 @@
     <link href="css/listy.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="css/theme.css" media="screen" rel="stylesheet" type="text/css" />
     <style type="text/css">
+      /* Fix rainbow which use the same .close class as bootstrap */
       span.close{
         float: none;
         color: #8DA6CE;
@@ -17,7 +18,7 @@
       }
 
       #console{
-        height: 110px;
+        height: 150px;
         overflow-y: auto;
       }
     </style>
@@ -31,34 +32,25 @@
         </div>
       </div>
       <div class='row'>
-        <div class='span6'>
+        <div class='span4'>
           <ul tabindex='0' class='listy'>
-            <li class='inactive'>elem 1</li>
+            <li class='muted'>elem 1</li>
             <li>elem 2</li>
             <li>elem 3</li>
             <li>elem 4</li>
             <li>elem 5</li>
             <li>elem 6</li>
             <li>elem 7</li>
-            <li class='inactive'>elem 8</li>
+            <li class='muted'>elem 8</li>
             <li>elem 9</li>
             <li>elem 10</li>
-            <li>elem 11</li>
-            <li>elem 12</li>
-            <li>elem 13</li>
-            <li>elem 14</li>
-            <li>elem 15</li>
-            <li>elem 16</li>
-            <li>elem 17</li>
-            <li>elem 18</li>
-            <li>elem 19</li>
           </ul>
           <br />
           <br />
-          <div id='console' class='well'>
+          <div id='console' class='well well-small'>
           </div>
         </div>
-        <div class='span6'>
+        <div class='span8'>
           <pre><code data-language="html">&lt;ul tabindex='0' class='listy'&gt;
   &lt;li class='inactive'&gt;elem 1&lt;/li&gt;
   &lt;li&gt;elem 2&lt;/li&gt;
@@ -70,15 +62,6 @@
   &lt;li class='inactive'&gt;elem 8&lt;/li&gt;
   &lt;li&gt;elem 9&lt;/li&gt;
   &lt;li&gt;elem 10&lt;/li&gt;
-  &lt;li&gt;elem 11&lt;/li&gt;
-  &lt;li&gt;elem 12&lt;/li&gt;
-  &lt;li&gt;elem 13&lt;/li&gt;
-  &lt;li&gt;elem 14&lt;/li&gt;
-  &lt;li&gt;elem 15&lt;/li&gt;
-  &lt;li&gt;elem 16&lt;/li&gt;
-  &lt;li&gt;elem 17&lt;/li&gt;
-  &lt;li&gt;elem 18&lt;/li&gt;
-  &lt;li&gt;elem 19&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
           <br />
           <pre><code data-language="javascript">$(&quot;.listy&quot;).listy({
