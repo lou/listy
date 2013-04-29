@@ -37,6 +37,7 @@
 
       this.$container.on('mousemove', function(){
         if (_self.mouseActive === false){
+          _self.$elems = _self.$container.find(_self.elemsSelector);
           _self.$elems.on('mouseenter', function(){
             _self.$elems.removeClass('listy-hover');
             $(this).addClass('listy-hover');
@@ -44,12 +45,7 @@
           });
         }
       });
-
-      _self.$elems.on('click', function(){
-        if (typeof _self.options.select === 'function') {
-          _self.options.select.call(this, $(this));
-        }
-      });
+      
       _self.$container.on('focus', function(){
         _self.$container.addClass('listy-focus');
       })
@@ -71,13 +67,29 @@
           _self.move('UP', $currentHoverLi);
           return false;
         }
-        else if (_self.matchKeys(code, _self.options.selectKeys)) {
-          if (typeof _self.options.select === 'function') {
-            if ($currentHoverLi.length > 0 && $currentHoverLi.is(':visible')){
-              _self.options.select.call(this, $currentHoverLi);
+        else {
+          $.each(_self.options.actions, function(idx, action){
+            if (_self.matchKeys(code, action.keys)){
+              if (typeof action.method === 'function' && $currentHoverLi.length > 0) {
+                action.method.call(this, $currentHoverLi);
+                e.preventDefault();
+                return;
+              }
             }
-          }
-          return false;
+          });
+        }
+      });
+
+      // Add custom events
+      $.each(_self.options.actions, function(idx, action){
+        if (action.events !== undefined ){
+          _self.$elems.on(action.events, function(e){
+            if (typeof action.method === 'function' && $(this).length > 0) {
+              action.method.call(this, $(this));
+              e.preventDefault();
+              return;
+            }
+          });
         }
       });
     },
@@ -147,13 +159,8 @@
   $.fn.listy.defaults = {
     upKeys: [38],
     downKeys: [40],
-    selectKeys: [13, 32],
-    inactive: '.inactive',
-    element: 'li:visible',
-    selectFirst: true,
-    select: function(elem){
-      elem.hide();
-    }
+    inactive: '.muted',
+    element: 'li:visible'
   };
 
   $.fn.listy.Constructor = Listy;

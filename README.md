@@ -39,9 +39,27 @@ css:
 Options
 -------
 
-* **select**: function to fire when user select one item (default: function(elem){ elem.toggleClass('active'); } | type: function)
+**actions**:
+Object where you can define actions you want to fire when specified keys and/or events are triggered.
+You can define as many actions as you want.
+
+example:
+```javascript
+  actions: {
+    // the following method will be fire
+    // when user click/dblclick on elem
+    // or press keys 13,32 (space, enter)
+    yourCustomMethod: {
+      method: function(elem){
+        elem.doSomethingCool();
+      },
+      keys: [13, 32],
+      events: 'click dblclick'
+    }
+  }
+```
+
 * **upKeys**: keys code for the up action (default: [38] | type: Array)
 * **downKeys**: keys code for the down action (default: [40] | type: Array)
-* **selectKeys**: keys code for the select action (default: [13, 32] | type: Array)
-* **inactive**: jQuery selector for the non-selectable items (default: '.inactive' | type: String)
+* **inactive**: jQuery selector for the non-selectable items (default: '.muted' | type: String)
 * **element**: jQuery selector for the items (default: 'li' | type: String)
