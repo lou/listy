@@ -21,8 +21,14 @@ html:
 javascript:
 ```javascript
   $('.listy').listy({
-    select: function(elem){
-      elem.doSomethingWithMe();
+    actions: {
+      select: {
+        method: function(elem){
+          elem.addClass('select');
+        },
+        keys: [13, 32],
+        events: 'click dblclik'
+      }
     }
   });
 ```
