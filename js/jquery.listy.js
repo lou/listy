@@ -45,7 +45,7 @@
           });
         }
       });
-      
+
       _self.$container.on('focus', function(){
         _self.$container.addClass('listy-focus');
       })
@@ -83,7 +83,7 @@
       // Add custom events
       $.each(_self.options.actions, function(idx, action){
         if (action.events !== undefined ){
-          _self.$elems.on(action.events, function(e){
+          _self.$container.on(action.events, _self.elemsSelector, function(e){
             if (typeof action.method === 'function' && $(this).length > 0) {
               action.method.call(this, $(this));
               e.preventDefault();
@@ -141,7 +141,7 @@
       var $this = $(this),
           data = $this.data('listy'),
           options = $.extend(
-                      {}, 
+                      {},
                       $.fn.listy.defaults,
                       $this.data(),
                       typeof option === 'object' && option);
