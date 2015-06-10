@@ -3,7 +3,7 @@ listy
 
 I'm a tiny jQuery plugin which aim to facilitate developer making lists browsable through keyboard.
 
-I just do the list stuff and let the developer do whatever he want to do when user select anything in the list.
+I just do the list stuff and let the developer do whatever he wants to do when user selects anything in the list.
 
 Demo: http://lou.github.io/listy/
 
